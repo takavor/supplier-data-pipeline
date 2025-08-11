@@ -41,3 +41,6 @@ The supplier's data feed is notoriously unreliable. It contains inconsistencies,
 * **Python & SQL Proficiency:** The quality, efficiency, and organization of your code.
 * **Data Engineering Concepts:** The structure and robustness of your ETL pipeline.
 * **Data Visualization & Communication:** The clarity and impact of your analysis and visualizations in the README report.
+
+## Disclaimer: Data and Evaluation Criteria
+Please be advised that the datasets utilized in this project are synthetically generated and intended for illustrative purposes only. Furthermore, they have been significantly reduced in terms of sample size and the number of features to streamline the exercise. They do not represent or correspond to any actual business data. The primary objective of this evaluation is to assess the problem-solving methodology and the strategic approach employed, not necessarily the best possible tailored solution for the data. 
