@@ -14,6 +14,12 @@ Task 1.
 
 - The dates that are of the form `03/04/24` are `mm/dd/yy` (month first)
 
+Task 2.
+
+- Assuming `product_metadata.csv` does not require processing/cleaning
+
+- Assuming `part_id` can be used as a primary key for the `product_metadata` table (i.e. only a single row per `part_id` are present)
+
 ## Figures
 
 Histogram of non-numeric stock levels in the supplier feed
