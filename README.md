@@ -14,4 +14,7 @@ Task 1.
 
 - The dates that are of the form `03/04/24` are `mm/dd/yy` (month first)
 
+## Figures
+
+Histogram of non-numeric stock levels in the supplier feed
 ![Histogram of non-numeric stock levels in the supplier feed](figures/nonnumeric_stock_levels_histogram.png)
