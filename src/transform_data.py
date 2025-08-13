@@ -37,4 +37,17 @@ plt.show()
 
 # lowest stock levels are concentrated around 30, so I'm choosing 30 as the low stock value
 # create new df
+supplier_df_cleaned = supplier_df.copy()
 
+# replace non-numeric stock levels
+stock_levels_map = {
+    'LOW': 30,
+    'Low Stock': 30,
+    'UNAVAILABLE': 0,
+    'low stock': 30,
+    'Out of Stock': 0
+}
+
+supplier_df_cleaned['stock_level'] = supplier_df_cleaned['stock_level'].replace(stock_levels_map)
+
+print(f'Supplier feed with cleaned stock levels:\n{supplier_df_cleaned.head(10)}')
