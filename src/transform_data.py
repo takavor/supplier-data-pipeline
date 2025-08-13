@@ -1,6 +1,10 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
+##########
+# TASK 1 #
+##########
+
 # import supplier feed data
 supplier_df = pd.read_csv('data/supplier_feed.csv')
 print(f'Head of supplier feed:\n{supplier_df.head(10)}')
@@ -51,7 +55,12 @@ stock_levels_map = {
 supplier_df_cleaned['stock_level'] = supplier_df_cleaned['stock_level'].replace(stock_levels_map)
 
 print(f'Supplier feed with cleaned stock levels:\n{supplier_df_cleaned.head(10)}')
+
+# for missing stock levels, it's best to say they are unavailable until we get the correct data
+supplier_df_cleaned['stock_level'] = supplier_df_cleaned['stock_level'].fillna(0)
+print(f'\nCount of NaN stock levels:\n{supplier_df_cleaned['stock_level'].isna().sum()}')
 print('-'*100)
+
 
 # let's now take a look at cost prices
 print(f'Supplier feed cost prices:\n{supplier_df_cleaned.head(10)['cost_price']}')
@@ -73,11 +82,11 @@ print(f'Avg cost prices per stock:\n{avg_cost_prices_per_stock}')
 
 supplier_df_cleaned['cost_price'] = supplier_df_cleaned['cost_price'].fillna(supplier_df_cleaned['part_id'].map(avg_cost_prices_per_stock))
 print(f'\nCost prices with NaN filled:\n{supplier_df_cleaned['cost_price'].head(10)}')
-print('-'*100)
 
 # edge case: part could have NaN for all of its cost prices
 # check if there are still NaN
 print(f'Number of NaN values in cleaned cost prices:\n{supplier_df_cleaned['cost_price'].isna().sum()}') # it's 0!
+print('-'*100)
 
 # now for entry date, we must see the different kinds of formats we have
 print(f'Entry dates:\n{supplier_df_cleaned.head(10)['entry_date']}')
@@ -89,3 +98,26 @@ print(f'\nCleaned entry dates:\n{supplier_df_cleaned['entry_date']}')
 
 # check if there are NaT (not a time) values
 print(f'\nCount of NaT values:\n{supplier_df_cleaned['entry_date'].isna().sum()}')
+
+##########
+# TASK 2 #
+##########
+
+import sqlite3
+
+# create sqlite 3 connection and command cursor
+con = sqlite3.connect('parts_avatar.db')
+cur = con.cursor()
+
+# command to create supplier feed table
+supplier_table_cmd = """
+CREATE TABLE supplier_data (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    part_id TEXT NOT NULL,
+    stock_level INTEGER,
+    cost_price REAL,
+    entry_date DATE
+)
+"""
+
+cur.execute(supplier_table_cmd)
