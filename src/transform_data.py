@@ -51,3 +51,30 @@ stock_levels_map = {
 supplier_df_cleaned['stock_level'] = supplier_df_cleaned['stock_level'].replace(stock_levels_map)
 
 print(f'Supplier feed with cleaned stock levels:\n{supplier_df_cleaned.head(10)}')
+print('-'*100)
+
+# let's now take a look at cost prices
+print(f'Supplier feed cost prices:\n{supplier_df_cleaned.head(10)['cost_price']}')
+
+# we have a mix of instances: some are numbers, some are NaN, and some are strings with a dollar sign followed by a number
+# remove dollar signs
+supplier_df_cleaned['cost_price'] = supplier_df_cleaned['cost_price'].str.replace('$', '')
+
+# convert cost prices back to numeric types
+supplier_df_cleaned['cost_price'] = pd.to_numeric(supplier_df_cleaned['cost_price'])
+
+print(f'\nCost prices with $ stripped:\n{supplier_df_cleaned['cost_price'].head(10)}')
+print('-'*100)
+
+# idea: we can replace NaNs by the average of the cost prices for the given stock over time
+
+avg_cost_prices_per_stock = supplier_df_cleaned.groupby('part_id')['cost_price'].mean()
+print(f'Avg cost prices per stock:\n{avg_cost_prices_per_stock}')
+
+supplier_df_cleaned['cost_price'] = supplier_df_cleaned['cost_price'].fillna(supplier_df_cleaned['part_id'].map(avg_cost_prices_per_stock))
+print(f'\nCost prices with NaN filled:\n{supplier_df_cleaned['cost_price'].head(10)}')
+print('-'*100)
+
+# edge case: part could have NaN for all of its cost prices
+# check if there are still NaN
+print(f'Number of NaN values in cleaned cost prices:\n{supplier_df_cleaned['cost_price'].isna().sum()}') # it's 0!
