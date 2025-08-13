@@ -78,3 +78,14 @@ print('-'*100)
 # edge case: part could have NaN for all of its cost prices
 # check if there are still NaN
 print(f'Number of NaN values in cleaned cost prices:\n{supplier_df_cleaned['cost_price'].isna().sum()}') # it's 0!
+
+# now for entry date, we must see the different kinds of formats we have
+print(f'Entry dates:\n{supplier_df_cleaned.head(10)['entry_date']}')
+
+# use pandas to_datetime to convert all to a uniform format
+# assuming month is first for cases like 03/04/24 (view README)
+supplier_df_cleaned['entry_date'] = pd.to_datetime(supplier_df_cleaned['entry_date'], format='mixed', dayfirst=False)
+print(f'Cleaned entry dates:\n{supplier_df_cleaned['entry_date']}')
+
+# check if there are NaT (not a time) values
+print(f'\nCount of NaT values:\n{supplier_df_cleaned['entry_date'].isna().sum()}')
