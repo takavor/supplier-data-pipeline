@@ -5,11 +5,10 @@ import matplotlib.pyplot as plt
 supplier_df = pd.read_csv('data/supplier_feed.csv')
 print(f'Head of supplier feed:\n{supplier_df.head(10)}')
 print(f'\nSupplier feed column data types:\n{supplier_df.dtypes}')
+
 # check for missing values
 supplier_na_counts = supplier_df.isna().sum()
-print(f'\nNumber of missing values:\n{supplier_na_counts}')
-
-# stock level and cost price have missing values (to be addressed later)
+print(f'\nNumber of missing values:\n{supplier_na_counts}') # stock level and cost price have missing values (to be addressed later)
 
 # get supplier feed data value counts to see the different kinds of values we have
 stock_level_counts = supplier_df['stock_level'].value_counts()
@@ -28,4 +27,14 @@ print('-'*100)
 # we must map those to appropriate stock levels
 # unavailable is easy (means stock of 0)
 # for low stock, we can create a histogram of stock values, see what numbers represent low stock, and set it to be near those values
+numeric_stock_levels = stock_level_counts[~nonnumeric_stock_level_idx]
+
+plt.figure(figsize=(12, 8))
+plt.hist(numeric_stock_levels, bins=100)
+plt.xlabel('Stock level')
+plt.ylabel('Count')
+plt.show()
+
+# lowest stock levels are concentrated around 30, so I'm choosing 30 as the low stock value
+# create new df
 
