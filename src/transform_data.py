@@ -105,12 +105,15 @@ print(f'\nCount of NaT values:\n{supplier_df_cleaned['entry_date'].isna().sum()}
 
 import sqlite3
 
-# create sqlite 3 connection and command cursor
+# load product metadata
+product_metadata_df = pd.read_csv('data/product_metadata.csv')
+
+# create sqlite3 connection and command cursor
 con = sqlite3.connect('parts_avatar.db')
 cur = con.cursor()
 
-# command to create supplier feed table
-supplier_table_cmd = """
+# create sql tables
+supplier_feed_cmd = """
 CREATE TABLE supplier_data (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     part_id TEXT NOT NULL,
@@ -119,5 +122,20 @@ CREATE TABLE supplier_data (
     entry_date DATE
 )
 """
+product_metadata_cmd = """
+CREATE TABLE product_metadata (
+    part_id TEXT PRIMARY KEY,
+    part_name TEXT NOT NULL,
+    category TEXT NOT NULL
+)
+"""
 
-cur.execute(supplier_table_cmd)
+cur.execute(supplier_feed_cmd)
+cur.execute(product_metadata_cmd)
+
+# append df data to the sql tables
+supplier_df_cleaned.to_sql('supplier_data', con, if_exists='append', index=False)
+product_metadata_df.to_sql('product_metadata', con, if_exists='append', index=False)
+
+# commit actions
+con.commit()
