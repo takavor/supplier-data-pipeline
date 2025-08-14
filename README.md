@@ -4,6 +4,20 @@ Welcome to my submission for the Supplier Data Integration & Analysis Pipeline t
 
 ## Installation
 
+Create a virtual environment, activate it and install dependencies
+
+```
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+Run the `transform_data.py` script to run the data processing and database creation
+
+```
+python src/transform.py
+```
+
 ## Data Cleaning Strategies
 
 For the supplier feed, I first checked for missing values. Stock level and cost price had missing values. For the missing stock levels, I figured it's best to say the parts are unavailable until we can figure the stock levels, because it could be troublesome if a customer placed an order for a part that turns out is unavailable. As for the missing cost prices (NaNs), I replaced them by the average of the cost prices for the given stock over time. I figured this would be an accurate representation of the stock price given the historic data.
