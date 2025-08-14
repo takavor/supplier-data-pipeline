@@ -34,6 +34,7 @@ print('-'*100)
 numeric_stock_levels = stock_level_counts[~nonnumeric_stock_level_idx]
 
 plt.figure(figsize=(12, 8))
+plt.title('Histogram of non-numeric stock levels in the supplier feed')
 plt.hist(numeric_stock_levels, bins=100)
 plt.xlabel('Stock level')
 plt.ylabel('Count')

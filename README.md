@@ -20,6 +20,10 @@ Task 2.
 
 - Assuming `part_id` can be used as a primary key for the `product_metadata` table (i.e. only a single row per `part_id` are present)
 
+Task 3.
+
+- Assuming `category` names are uniform. For example, a Filter will always have a category of `Filters` and not `Filter`
+
 ## Figures
 
 Histogram of non-numeric stock levels in the supplier feed
